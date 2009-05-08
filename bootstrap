@@ -106,6 +106,18 @@ rm -rf autom4te.cache                                || exit 1
 rm -rf `find ./ -name ".deps"`                       || exit 1
 
 #
+# Autofrisk perl modules
+#
+echo "$ME: Perl autofrisk ..."
+./perl-autofrisk ./perl.af && \
+    cat ./perl.af.m4 > ./tools/autotools/m4/perl_autofrisk.m4 && \
+    rm -f ./perl.af.m4 || {
+    rm -f ./perl.af.m4
+    rm -f ./tools/autotools/m4/perl_autofrisk.m4
+    exit 1
+}
+
+#
 # configure.ac
 #
 echo "$ME: Building configure.ac from configure.ac.in"
