@@ -24,6 +24,9 @@ configure.ac
 config.log
 config.status
 
+man/perl-autofrisk.1
+man/python-autofrisk.1
+
 tools/autotools/install-sh
 tools/autotools/missing
 tools/autotools/mdate-sh
