@@ -2,18 +2,21 @@
 <todo version="0.1.20">
     <note priority="veryhigh" time="1241767034">
         Release 0.1.0
+        <note priority="veryhigh" time="1244708688" done="1244708702">
+            Fix the multiple import problem in python-modfrisker
+        </note>
         <note priority="medium" time="1244647355" done="1244647368">
             Add mans generation from --version output
             <comment>
                 Done
             </comment>
         </note>
-        <note priority="veryhigh" time="1244708688" done="1244708702">
-            Fix the multiple import problem in python-modfrisker
-        </note>
     </note>
     <note priority="high" time="1241767038">
         Release 0.2.0
+        <note priority="high" time="1245270857">
+            Add some regression tests
+        </note>
     </note>
     <note priority="medium" time="1241767042">
         Release 0.3.0
