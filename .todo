@@ -17,6 +17,9 @@
         <note priority="high" time="1245270857">
             Add some regression tests
         </note>
+        <note priority="low" time="1245659058">
+            Rearrange the build process in order to use EXEEXT (if needed)
+        </note>
     </note>
     <note priority="medium" time="1241767042">
         Release 0.3.0
