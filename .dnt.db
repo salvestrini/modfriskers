@@ -1,11 +1,31 @@
 <?xml version="1.0"?>
 <root><entry priority="veryhigh" start="1241767034">
         Release 0.1.0
+        <entry end="1244708702" priority="veryhigh" start="1244708688">
+            Fix the multiple import problem in python-modfrisker
+        </entry>
+    <entry end="1244647368" priority="medium" start="1244647355">
+            Add mans generation from --version output
+            <comment>
+                Done
+            </comment></entry>
     </entry>
     <entry priority="high" start="1241767038">
         Release 0.2.0
+        <entry priority="high" start="1245270857">
+            Add some regression tests
+        </entry>
+    <entry priority="low" start="1245659058">
+            Rearrange the build process in order to use EXEEXT (if needed)
+        </entry>
     </entry>
     <entry priority="medium" start="1241767042">
         Release 0.3.0
+    </entry>
+    <entry priority="low" start="1243950787">
+        Release 0.4.0
+        <entry priority="medium" start="1244669243">
+            Fix bootstrap in order to exit when a missing program is called
+        </entry>
     </entry>
     </root>
