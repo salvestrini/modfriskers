@@ -207,3 +207,4 @@ maintainer-check-parameters: Makefile $(bin_SCRIPTS)
 	done
 
 maintainer-check-local: Makefile maintainer-check-parameters
+	$(WHITESPACE_DETECT)  $(bin_SCRIPTS)
