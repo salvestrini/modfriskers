@@ -24,8 +24,18 @@ EXTRA_DIST =					\
 	fetch.in				\
 	whitespace-detect.in			\
 	gitlog-to-committers.in			\
-	perl-autofrisk				\
-	\
+	gittag-to-date.in			\
+						\
+	git-version-gen				\
+	gitlog-to-changelog			\
+	announce-gen
+
+scripts =					\
+	fetch					\
+	whitespace-detect			\
+	gitlog-to-committers			\
+	gittag-to-date				\
+						\
 	git-version-gen				\
 	gitlog-to-changelog			\
 	announce-gen
