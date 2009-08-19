@@ -39,9 +39,9 @@ my $debug_enabled = 0;
 sub debug($)
 {
     if ($debug_enabled) {
-	my $message = shift;
+        my $message = shift;
 
-	print STDERR "$program: $message";
+        print STDERR "$program: $message";
     }
 }
 
@@ -89,47 +89,47 @@ sub file_filter($)
     debug("name = \`" . $rel_name . "'\n");
 
     if (-d $abs_name) {
-	debug("Skipping \`" . $rel_name . "', it is a directory ... \n");
-	return;
+        debug("Skipping \`" . $rel_name . "', it is a directory ... \n");
+        return;
     }
     if (-l $abs_name) {
-	debug("Skipping, \`" . $rel_name . "' is a link ... \n");
-	return;
+        debug("Skipping, \`" . $rel_name . "' is a link ... \n");
+        return;
     }
     if (! -f $abs_name) {
-	debug("Skipping \`" . $rel_name . "', it is not a file ... \n");
-	return;
+        debug("Skipping \`" . $rel_name . "', it is not a file ... \n");
+        return;
     }
 
     # It is a file
 
     if (! -r $abs_name) {
-	warning("File \`" . $rel_name . "' is not readable\n");
-	return;
+        warning("File \`" . $rel_name . "' is not readable\n");
+        return;
     }
 
     # And it is readable
 
     for my $regexp (@file_regexps) {
-	debug("Checking \`" . $regexp . "' against \`" . $rel_name . "'\n");
-	my $s;
-	my $t;
+        debug("Checking \`" . $regexp . "' against \`" . $rel_name . "'\n");
+        my $s;
+        my $t;
 
-	$s = $regexp;
-	$s =~ s/\//,/g;
+        $s = $regexp;
+        $s =~ s/\//,/g;
 
-	$t = $rel_name;
-	$t =~ s/\//,/g;
+        $t = $rel_name;
+        $t =~ s/\//,/g;
 
-	if ($t =~ /^$s$/) {
-	    debug("Keeping, it matches regexp \`" . $regexp . "'\n");
-	    push(@files, $abs_name);
-	    return;
-	}
+        if ($t =~ /^$s$/) {
+            debug("Keeping, it matches regexp \`" . $regexp . "'\n");
+            push(@files, $abs_name);
+            return;
+        }
     }
 
     debug("File \`" . $rel_name . "' has been dropped, " .
-	  "it doesn't matches regexps\n");
+          "it doesn't matches regexps\n");
     return;
 }
 
@@ -138,7 +138,7 @@ sub hint ($)
     my $string = shift;
 
     if (defined($string)) {
-	print "$program: " . $string . "\n";
+        print "$program: " . $string . "\n";
     }
     print "Try `$program --help' for more information.\n";
 }
@@ -208,23 +208,23 @@ while (<$rules_handle>) {
 
     $line = $_;
     if ($line =~ /^[ \t]*#.*$/) {
-	# Skip comments
+        # Skip comments
     } elsif ($line =~ /^[ \t]*$/) {
-	# Skip empty lines
+        # Skip empty lines
     } elsif ($line =~ /^[ \t]*files-glob[ \t]+(.*)/) {
-	my $regexp;
+        my $regexp;
 
-	$regexp = $1;
-	push(@file_regexps, $regexp);
-	debug("$regexp\n");
+        $regexp = $1;
+        push(@file_regexps, $regexp);
+        debug("$regexp\n");
     } elsif ($line =~ /^[ \t]*non-critical-external[ \t](.*)/) {
-	push(@module_regexps, $1);
+        push(@module_regexps, $1);
     } elsif ($line =~ /^[ \t]*non-critical-internal[ \t](.*)/) {
-	push(@module_regexps, $1);
+        push(@module_regexps, $1);
     } else {
-	error("Unknown line \`" . $line . "' " .
-	      "found in file " . $rules_file . ":" . $line_number . "\n");
-	exit 1;
+        error("Unknown line \`" . $line . "' " .
+              "found in file " . $rules_file . ":" . $line_number . "\n");
+        exit 1;
     }
 
     $line_number++;
@@ -263,43 +263,43 @@ for my $filename (@files) {
     my $filehandle;
 
     if (!open($filehandle, "<", $filename)) {
-	error("Unable to open \`$filename' for reading ($!)\n");
-	exit 1;
+        error("Unable to open \`$filename' for reading ($!)\n");
+        exit 1;
     }
 
     while (<$filehandle>) {
-	my $line;
+        my $line;
 
-	$line = $_;
+        $line = $_;
 
-	#import_stmt    ::=  "import" module ["as" name] ( "," module ["as" name] )*
-	#                    | "from" relative_module "import" identifier ["as" name]
-	#                    ( "," identifier ["as" name] )*
-	#                    | "from" relative_module "import" "(" identifier ["as" name]
-	#                    ( "," identifier ["as" name] )* [","] ")"
-	#                    | "from" module "import" "*"
-	#module          ::=  (identifier ".")* identifier
-	#relative_module ::=  "."* module | "."+
-	#name            ::=  identifier
-	#identifier ::=  (letter|"_") (letter | digit | "_")*
+        #import_stmt    ::=  "import" module ["as" name] ( "," module ["as" name] )*
+        #                    | "from" relative_module "import" identifier ["as" name]
+        #                    ( "," identifier ["as" name] )*
+        #                    | "from" relative_module "import" "(" identifier ["as" name]
+        #                    ( "," identifier ["as" name] )* [","] ")"
+        #                    | "from" module "import" "*"
+        #module          ::=  (identifier ".")* identifier
+        #relative_module ::=  "."* module | "."+
+        #name            ::=  identifier
+        #identifier ::=  (letter|"_") (letter | digit | "_")*
 
-	if ($line =~ /^[ \t]*import[ \t]+(.*)[ \t]*$/) {
-	    my $m_string = $1;
+        if ($line =~ /^[ \t]*import[ \t]+(.*)[ \t]*$/) {
+            my $m_string = $1;
 
-	    # Sanitize it!
-	    $m_string    =~ s/[ \t]+as[ \t]+[A-Za-z_][A-Za-z0-9_]*//g;
+            # Sanitize it!
+            $m_string    =~ s/[ \t]+as[ \t]+[A-Za-z_][A-Za-z0-9_]*//g;
 
-	    if (!defined($m_string)) {
-		next;
-	    }
-	    my @m_list = split(/[ \t]*,[ \t]*/, $m_string);
+            if (!defined($m_string)) {
+                next;
+            }
+            my @m_list = split(/[ \t]*,[ \t]*/, $m_string);
 
-	    for my $m (@m_list) {
-		$modules{$m} = "INCLUDE";
-	    }
+            for my $m (@m_list) {
+                $modules{$m} = "INCLUDE";
+            }
         } elsif ($line =~ /^[ \t]*from[ \t]+([_a-zA-Z][_a-zA-Z0-9]*)[ \t]+import[ \t]+.*$/) {
-	    $modules{$1} = "INCLUDE";
-	}
+            $modules{$1} = "INCLUDE";
+        }
     }
 
     close($filehandle);
@@ -310,11 +310,11 @@ for my $filename (@files) {
 #
 for my $key (keys(%modules)) {
     for my $regexp (@module_regexps) {
-	if ($key =~ /^$regexp$/) {
-	    $modules{$key} = "EXCLUDE";
-	    debug("Module " . $key . "' excluded\n");
-	    next;
-	}
+        if ($key =~ /^$regexp$/) {
+            $modules{$key} = "EXCLUDE";
+            debug("Module " . $key . "' excluded\n");
+            next;
+        }
     }
 }
 
@@ -353,19 +353,19 @@ for my $key (keys(%modules)) {
     #     It should be better to add a commentify($string) in the else ...
     #
     if ($modules{$key} =~ /^INCLUDE$/) {
-	my $string =
-	    "    AX_PROG_PYTHON_MODULES([$key],[],[\n"                 .
-	    "        AC_MSG_ERROR([cannot find python module $key])\n" .
-	    "    ])\n";
+        my $string =
+            "    AX_PROG_PYTHON_MODULES([$key],[],[\n"                 .
+            "        AC_MSG_ERROR([cannot find python module $key])\n" .
+            "    ])\n";
 
-	print $output_handle $string;
+        print $output_handle $string;
     } elsif ($modules{$key} =~ /^EXCLUDE$/) {
-	my $string =
-	    "    #AX_PROG_PYTHON_MODULES([$key],[],[])\n";
+        my $string =
+            "    #AX_PROG_PYTHON_MODULES([$key],[],[])\n";
 
-	print $output_handle $string;
+        print $output_handle $string;
     } else {
-	bug("Unknown module type");
+        bug("Unknown module type");
     }
 }
 print $output_handle "])\n";
