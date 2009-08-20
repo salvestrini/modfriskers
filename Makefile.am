@@ -206,5 +206,7 @@ maintainer-check-parameters: Makefile $(bin_SCRIPTS)
 		fi ; \
 	done
 
-maintainer-check-local: Makefile maintainer-check-parameters
-	$(WHITESPACE_DETECT)  $(bin_SCRIPTS)
+maintainer-check-whitespaces: Makefile
+	$(WHITESPACE_DETECT) $(bin_SCRIPTS)
+
+maintainer-check-local: Makefile maintainer-check-whitespaces maintainer-check-parameters
