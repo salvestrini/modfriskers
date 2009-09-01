@@ -1,7 +1,7 @@
-#! /usr/bin/perl
+#! @PERL@
 
 #
-# perl-autofrisk
+# python-autofrisk
 #
 # Copyright (C) 2008, 2009 Francesco Salvestrini
 #
@@ -27,8 +27,9 @@ use File::Spec;
 use File::stat;
 use Cwd;
 
-my $program = "perl-autofrisk";
-my $version = "0.1";
+my $bundle  = '@PACKAGE_NAME@';
+my $program = "python-autofrisk";
+my $version = '@PACKAGE_VERSION@';
 
 #
 # Utilities
@@ -147,19 +148,19 @@ sub help ()
 {
     print "Usage: $program [OPTION] FILE\n";
     print "\n";
-    print "    Autofrisk perl modules.\n";
+    print "    Autofrisk python modules.\n";
     print "\n";
     print "OPTIONS:\n";
     print "\n";
     print "    --help,    -h    display this help and exit\n";
     print "    --version, -v    output version information and exit\n";
     print "\n";
-    print "Report bugs to <" . 'salvestrini@gmail.com' . ">\n";
+    print "Report bugs to <" . '@PACKAGE_BUGREPORT@' . ">\n";
 }
 
 sub version ()
 {
-    print "$program $version\n";
+    print "$program ($bundle) $version\n";
     print "Written by Francesco Salvestrini.\n";
     print "\n";
     print "This is free software; see the source for copying conditions.  There is NO\n";
@@ -271,7 +272,33 @@ for my $filename (@files) {
         my $line;
 
         $line = $_;
-        if ($line =~ /^use[ \t]*(.*);$/) {
+
+        #import_stmt    ::=  "import" module ["as" name] ( "," module ["as" name] )*
+        #                    | "from" relative_module "import" identifier ["as" name]
+        #                    ( "," identifier ["as" name] )*
+        #                    | "from" relative_module "import" "(" identifier ["as" name]
+        #                    ( "," identifier ["as" name] )* [","] ")"
+        #                    | "from" module "import" "*"
+        #module          ::=  (identifier ".")* identifier
+        #relative_module ::=  "."* module | "."+
+        #name            ::=  identifier
+        #identifier ::=  (letter|"_") (letter | digit | "_")*
+
+        if ($line =~ /^[ \t]*import[ \t]+(.*)[ \t]*$/) {
+            my $m_string = $1;
+
+            # Sanitize it!
+            $m_string    =~ s/[ \t]+as[ \t]+[A-Za-z_][A-Za-z0-9_]*//g;
+
+            if (!defined($m_string)) {
+                next;
+            }
+            my @m_list = split(/[ \t]*,[ \t]*/, $m_string);
+
+            for my $m (@m_list) {
+                $modules{$m} = "INCLUDE";
+            }
+        } elsif ($line =~ /^[ \t]*from[ \t]+([_a-zA-Z][_a-zA-Z0-9]*)[ \t]+import[ \t]+.*$/) {
             $modules{$1} = "INCLUDE";
         }
     }
@@ -286,7 +313,7 @@ for my $key (keys(%modules)) {
     for my $regexp (@module_regexps) {
         if ($key =~ /^$regexp$/) {
             $modules{$key} = "EXCLUDE";
-            debug("Perl \`use " . $key . "' excluded\n");
+            debug("Module " . $key . "' excluded\n");
             next;
         }
     }
@@ -319,18 +346,23 @@ for my $filename (@files) {
 print $output_handle "#\n";
 print $output_handle "\n";
 
-print $output_handle "AC_DEFUN([PERL_AUTOFRISK_CHECKS],[\n";
+print $output_handle "AC_DEFUN([PYTHON_AUTOFRISK_CHECKS],[\n";
 for my $key (keys(%modules)) {
+
+    #
+    # XXX FIXME:
+    #     It should be better to add a commentify($string) in the else ...
+    #
     if ($modules{$key} =~ /^INCLUDE$/) {
         my $string =
-            "    AX_PROG_PERL_MODULES([$key],[],[\n"                 .
-            "        AC_MSG_ERROR([cannot find perl module $key])\n" .
+            "    PYTHON_AUTOFRISK_MODULES([$key],[],[\n"               .
+            "        AC_MSG_ERROR([cannot find python module $key])\n" .
             "    ])\n";
 
         print $output_handle $string;
     } elsif ($modules{$key} =~ /^EXCLUDE$/) {
         my $string =
-            "    #AX_PROG_PERL_MODULES([$key],[],[])\n";
+            "    #PYTHON_AUTOFRISK_MODULES([$key],[],[])\n";
 
         print $output_handle $string;
     } else {
@@ -339,7 +371,7 @@ for my $key (keys(%modules)) {
 }
 print $output_handle "])\n";
 print $output_handle "\n";
-print $output_handle "AC_DEFUN([PERL_AUTOFRISK_SUMMARY],[\n";
+print $output_handle "AC_DEFUN([PYTHON_AUTOFRISK_SUMMARY],[\n";
 print $output_handle "])\n";
 
 close($output_handle);
