@@ -35,25 +35,23 @@ EXTRA_DIST = $(man_aux)
 ##     Distributed files should never depend on non-distributed built files
 ##
 
-#perl-autofrisk.1: $(top_srcdir)/perl-autofrisk.in $(top_srcdir)/configure.ac
-perl-autofrisk.1: $(top_srcdir)/configure.ac
+perl-autofrisk.1: $(top_srcdir)/src/perl-autofrisk.in $(top_srcdir)/configure.ac
 	$(HELP2MAN) \
 	    --include=$(srcdir)/perl-autofrisk.x \
 	    --source="@PACKAGE_NAME@" \
 	    --manual="User Commands" \
 	    --section=1 \
 	    --output=perl-autofrisk.1 \
-	    $(top_builddir)/perl-autofrisk
+	    $(top_builddir)/src/perl-autofrisk
 
-#python-autofrisk.1: $(top_srcdir)/python-autofrisk.in $(top_srcdir)/configure.ac
-python-autofrisk.1: $(top_srcdir)/configure.ac
+python-autofrisk.1: $(top_srcdir)/src/python-autofrisk.in $(top_srcdir)/configure.ac
 	$(HELP2MAN) \
 	    --include=$(srcdir)/python-autofrisk.x \
 	    --source="@PACKAGE_NAME@" \
 	    --manual="User Commands" \
 	    --section=1 \
 	    --output=python-autofrisk.1 \
-	    $(top_builddir)/python-autofrisk
+	    $(top_builddir)/src/python-autofrisk
 
 ##
 ## Maintainer related targets
