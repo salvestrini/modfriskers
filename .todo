@@ -5,11 +5,26 @@
         <note priority="veryhigh" time="1244708688" done="1244708702">
             Fix the multiple import problem in python-modfrisker
         </note>
+        <note priority="veryhigh" time="1251799472" done="1251799537">
+            Remove perl-autofrisk auto-dependency
+            <comment>
+                Done
+            </comment>
+        </note>
         <note priority="medium" time="1244647355" done="1244647368">
             Add mans generation from --version output
             <comment>
                 Done
             </comment>
+        </note>
+        <note priority="veryhigh" time="1251799486" done="1251799542">
+            Rearrange sources inside src directory
+            <comment>
+                Done
+            </comment>
+        </note>
+        <note priority="veryhigh" time="1251799511">
+            Move m4 shipped macros as source code
         </note>
     </note>
     <note priority="high" time="1241767038">
