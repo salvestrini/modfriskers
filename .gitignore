@@ -21,6 +21,9 @@ Makefile
 /config.log
 /config.status
 
+/src/perl-autofrisk
+/src/python-autofrisk
+
 /man/perl-autofrisk.1
 /man/python-autofrisk.1
 
