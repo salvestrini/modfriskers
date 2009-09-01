@@ -23,12 +23,12 @@
 AC_INIT([ModFriskers],[@VERSION@],[salvestrini@gmail.com],[modfriskers])
 
 # Check for a recent version of autoconf
-AC_PREREQ([2.61])
+AC_PREREQ([2.64])
 
 # Place/find all autotools related files in the following directories
 AC_CONFIG_AUX_DIR([tools/autotools])
 AC_CONFIG_MACRO_DIR([tools/autotools/m4])
-AC_CONFIG_SRCDIR([perl-autofrisk])
+AC_CONFIG_SRCDIR([src/perl-autofrisk.in])
 
 #
 # For automake options (AM_INIT_AUTOMAKE options) see Makefile.am
@@ -58,14 +58,16 @@ AX_PATH_MISSING([DEVTODO_TO_DNT], [devtodo-to-dnt])
 #
 AX_WITH_PERL
 AS_IF([test -z "$PERL"],[
-	AC_MSG_ERROR([Missing required Perl interpreter])
+        AC_MSG_ERROR([Missing required Perl interpreter])
 ],[
-	AX_PROG_PERL_VERSION([5.8.0],[],[
-		AC_MSG_ERROR([Missing required Perl interpreter version >= 5.8.0])
-	])
+        AX_PROG_PERL_VERSION([5.8.0],[],[
+                AC_MSG_ERROR([Missing required Perl interpreter version >= 5.8.0])
+        ])
 
-	PERL_AUTOFRISK_CHECKS
-	PERL_AUTOFRISK_SUMMARY
+        # Add module checks
+        AX_PROG_PERL_MODULES([strict warnings File::Find File::Spec File::stat Cwd],[],[
+            AC_MSG_ERROR([cannot find a required perl module])
+        ])
 ])
 
 #
@@ -89,17 +91,18 @@ AC_SUBST(pkgvbindir,  ["\${datadir}/${PACKAGE}-${API_VERSION}/bin"])
 AC_SUBST(pkgvlibsdir, ["\${datadir}/${PACKAGE}-${API_VERSION}/libs"])
 
 AC_CONFIG_FILES([
-	Makefile
+        Makefile
 
+        src/Makefile
         man/Makefile
 
-	tools/Makefile
-	tools/maint/Makefile
-	tools/autotools/Makefile
-	tools/autotools/m4/Makefile
+        tools/Makefile
+        tools/maint/Makefile
+        tools/autotools/Makefile
+        tools/autotools/m4/Makefile
 
-	site/Makefile
-	site/in/Makefile
+        site/Makefile
+        site/in/Makefile
 ])
 
 AC_CONFIG_FILES([tools/maint/fetch],               [chmod +x tools/maint/fetch])
