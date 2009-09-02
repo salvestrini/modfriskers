@@ -103,12 +103,6 @@ echo "$ME: Dumping build-tools information ..."
 for tool in                                     \
     $SED                                        \
     $GIT                                        \
-    $AUTOHEADER                                 \
-    $AUTOCONF                                   \
-    $LIBTOOL                                    \
-    $LIBTOOLIZE                                 \
-    $ACLOCAL                                    \
-    $AUTOMAKE                                   \
     $AUTORECONF                                 \
     $GNULIBTOOL                                 \
     $GUILE_TOOLS                                \
@@ -135,14 +129,18 @@ if test x"`$GIT tag -l 2>/dev/null | $SED -n '$='`" = x""; then
 fi
 
 #
-# Remove files left from the previous run
+# Build configure.ac from git configure.ac.in
 #
-echo "$ME: Removing autotools related files and directories ..."
-rm -f  `find ./ -name "Makefile.in"`                 || exit 1
-rm -f  config.cache aclocal.m4 config.h.in configure || exit 1
-rm -f  config.guess config.sub ltmain.sh             || exit 1
-rm -rf autom4te.cache                                || exit 1
-rm -rf `find ./ -name ".deps"`                       || exit 1
+echo "$ME: Building configure.ac from configure.ac.in"
+rm -f configure.ac
+VERSION=`git tag -l | sort -s -t '.' -k 1,1n -k 2,2n -k 3,3n | tail -n 1`
+cat configure.ac.in | \
+    sed -e 's,[@]VERSION[@],'$VERSION',' > configure.ac || {
+    echo "$ME: Problems building version stamp'"
+    rm -f configure.ac
+    exit 1
+}
+chmod a-w configure.ac
 
 #
 # Autofrisk modules
@@ -182,18 +180,24 @@ if test -e ./guile.af ; then
 fi
 
 #
-# configure.ac
+# Gather AC_CONFIG_AUX_DIR directly from configure.ac
 #
-echo "$ME: Building configure.ac from configure.ac.in"
-rm -f configure.ac
-VERSION=`git tag -l | sort -s -t '.' -k 1,1n -k 2,2n -k 3,3n | tail -n 1`
-cat configure.ac.in | \
-    sed -e 's,[@]VERSION[@],'$VERSION',' > configure.ac || {
-    echo "$ME: Problems building version stamp'"
-    rm -f configure.ac
+AC_CONFIG_AUX_DIR=`cat configure.ac|grep AC_CONFIG_AUX_DIR|sed -e 's,^.*\[,,' | sed -e 's,\].*,,'`
+if test -z "$AC_CONFIG_AUX_DIR" ; then
+    echo "$ME: Cannot retrieve AC_CONFIG_AUX_DIR value from configure.ac"
     exit 1
-}
-chmod a-w configure.ac
+fi
+
+#
+# Remove files left from the previous run
+#
+echo "$ME: Removing autotools related files and directories ..."
+rm -f  `find ./ -name "Makefile.in"`                 || exit 1
+rm -f  config.cache aclocal.m4 config.h.in configure || exit 1
+rm -f  config.guess config.sub                       || exit 1
+rm -f  libtool $AC_CONFIG_AUX_DIR/ltmain.sh          || exit 1
+rm -rf autom4te.cache                                || exit 1
+rm -rf `find ./ -name ".deps"`                       || exit 1
 
 #
 # Call gnulib
