@@ -1,0 +1,29 @@
+AUTOHEADER="`required autoheader`"                 || \
+    { echo "Missing tool: autoheader"; exit 1; }
+ACLOCAL="`required aclocal`"                       || \
+    { echo "Missing tool: aclocal"; exit 1; }
+AUTOCONF="`required autoconf`"                     || \
+    { echo "Missing tool: autoconf"; exit 1; }
+AUTOMAKE="`required automake`"                     || \
+    { echo "Missing tool: automake"; exit 1; }
+AUTORECONF="`required autoreconf`"                 || \
+    { echo "Missing tool: autoreconf"; exit 1; }
+LIBTOOL="`required_one libtool glibtool`"          || \
+    { echo "Missing tool: libtool"; exit 1; }
+LIBTOOLIZE="`required_one libtoolize glibtoolize`" || \
+    { echo "Missing tool: libtoolize"; exit 1; }
+GNULIBTOOL="`required gnulib-tool`"                || \
+    { echo "Missing tool: gnulib-tool"; exit 1; }
+GIT="`required git`"                               || \
+    { echo "Missing tool: git"; exit 1; }
+SED="`required sed`"                               || \
+    { echo "Missing tool: sed"; exit 1; }
+GUILE_TOOLS="`required guile-tools`"               || \
+    { echo "Missing tool: guile-tools"; exit 1; }
+PYTHON_AUTOFRISK="`required python-autofrisk`"     || \
+    { echo "Missing tool: python-autofrisk"; exit 1; }
+PERL_AUTOFRISK="`required perl-autofrisk`"         || \
+    { echo "Missing tool: perl-autofrisk"; exit 1; }
+
+BOOTSTRAPS=""
+GNULIBMODULES=""
