@@ -1,17 +1,11 @@
-AUTORECONF="`required autoreconf`"                 || \
-    { echo "Missing tool: autoreconf"; exit 1; }
-GNULIBTOOL="`required gnulib-tool`"                || \
-    { echo "Missing tool: gnulib-tool"; exit 1; }
-GIT="`required git`"                               || \
-    { echo "Missing tool: git"; exit 1; }
-SED="`required sed`"                               || \
-    { echo "Missing tool: sed"; exit 1; }
-GUILE_TOOLS="`required guile-tools`"               || \
+GUILE_TOOLS="`optional guile-tools`"               || \
     { echo "Missing tool: guile-tools"; exit 1; }
-PYTHON_AUTOFRISK="`required python-autofrisk`"     || \
+PYTHON_AUTOFRISK="`optional python-autofrisk`"     || \
     { echo "Missing tool: python-autofrisk"; exit 1; }
-PERL_AUTOFRISK="`required perl-autofrisk`"         || \
+PERL_AUTOFRISK="`optional perl-autofrisk`"         || \
     { echo "Missing tool: perl-autofrisk"; exit 1; }
 
 BOOTSTRAPS=""
-GNULIBMODULES=""
+GNULIB_MODULES=""
+GNULIB_DOC="INSTALL COPYINGv2"
+GNULIB_BUILDAUX="git-version-gen gitlog-to-changelog announce-gen"
