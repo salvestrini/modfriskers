@@ -20,7 +20,11 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #
 
-AC_INIT([ModFriskers],[@VERSION@],[salvestrini@gmail.com],[modfriskers])
+AC_INIT([ModFriskers],
+        m4_esyscmd([tools/maint/git-version-gen .tarball-version]),
+        [salvestrini@gmail.com],
+        [modfriskers],
+        [http://github.com/salvestrini/modfriskers])
 
 # Check for a recent version of autoconf
 AC_PREREQ([2.64])
