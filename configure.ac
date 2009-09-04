@@ -52,7 +52,6 @@ AC_PROG_SED
 AC_PROG_AWK
 
 AX_PATH_MISSING([HELP2MAN],       [help2man])
-AX_PATH_MISSING([SITETOOL],       [sitetool])
 AX_PATH_MISSING([WGET],           [wget])
 AX_PATH_MISSING([DNT],            [dnt])
 AX_PATH_MISSING([DEVTODO_TO_DNT], [devtodo-to-dnt])
@@ -104,9 +103,6 @@ AC_CONFIG_FILES([
         tools/maint/Makefile
         tools/autotools/Makefile
         tools/autotools/m4/Makefile
-
-        site/Makefile
-        site/in/Makefile
 ])
 
 AC_CONFIG_FILES([tools/maint/fetch],               [chmod +x tools/maint/fetch])
