@@ -44,18 +44,18 @@ EXTERNAL =                                      \
         $(URL_BU)/gittag-to-date.in
 
 update-local: Makefile
-        rm -r -f fetch-dir && \
-        mkdir fetch-dir && \
-        for i in $(EXTERNAL) ; do \
-                URL="$$i" ; \
-                NAME=`echo "$$i" | $(SED) -e 's,^.*/,,'` ; \
-                $(FETCH) $$URL?raw=true fetch-dir/$$NAME && \
-                mv fetch-dir/$$NAME $$NAME || { \
-                        rm -f fetch-dir/$$NAME ; \
-                        exit 1 ; \
-                } \
-        done && \
-        rm -r -f fetch-dir
+	rm -r -f fetch-dir && \
+	mkdir fetch-dir && \
+	for i in $(EXTERNAL) ; do \
+	        URL="$$i" ; \
+	        NAME=`echo "$$i" | $(SED) -e 's,^.*/,,'` ; \
+	        $(FETCH) $$URL?raw=true fetch-dir/$$NAME && \
+	        mv fetch-dir/$$NAME $$NAME || { \
+	                rm -f fetch-dir/$$NAME ; \
+	                exit 1 ; \
+	        } \
+	done && \
+	rm -r -f fetch-dir
 
 maintainer-check-parameters: Makefile $(scripts)
 	for i in $(scripts) ; do \
