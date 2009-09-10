@@ -36,6 +36,7 @@ EXTERNAL =					\
 	$(URL_AA)/ax_with_prog.m4
 
 INTERNAL =					\
+	gnulib-cache.m4				\
 	ax_prog_perl_modules.m4
 
 MACROS =                                        \
