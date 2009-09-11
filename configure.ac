@@ -51,9 +51,9 @@ AC_PROG_GREP
 AC_PROG_SED
 AC_PROG_AWK
 
-AX_PATH_MISSING([HELP2MAN],       [help2man])
-AX_PATH_MISSING([WGET],           [wget])
-AX_PATH_MISSING([DNT],            [dnt])
+AX_PATH_MISSING([HELP2MAN], [help2man])
+AX_PATH_MISSING([WGET],     [wget])
+AX_PATH_MISSING([DNT],      [dnt])
 
 #
 # Runtime related programs
