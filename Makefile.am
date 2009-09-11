@@ -62,8 +62,8 @@ dist-hook:
 
 MAINTAINERCLEANFILES =
 
-DNT_DB     = $(top_builddir)/.dnt.db
-DNT_FLAGS  = --database=$(DNT_DB) --mono
+DNT_DB    = $(top_builddir)/.dnt.db
+DNT_FLAGS = --database=$(DNT_DB) --mono
 
 TODO: $(DNT_DB)
 	$(DNT) $(DNT_FLAGS)			\
