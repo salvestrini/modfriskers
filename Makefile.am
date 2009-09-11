@@ -46,7 +46,7 @@ EXTRA_DIST +=					\
 	README COPYING AUTHORS INSTALL THANKS	\
 	bootstrap .bootstrap			\
 	perl.af					\
-	.todo .dnt.db
+	.dnt.db
 
 ##
 ## Maintainer related targets
@@ -63,17 +63,7 @@ dist-hook:
 MAINTAINERCLEANFILES =
 
 DNT_DB     = $(top_builddir)/.dnt.db
-DEVTODO_DB = $(top_srcdir)/.todo
 DNT_FLAGS  = --database=$(DNT_DB) --mono
-
-$(DNT_DB): $(DEVTODO_DB)
-	$(DEVTODO_TO_DNT)			\
-		--input=$(DEVTODO_DB)		\
-		--output=$(DNT_DB)		\
-		--force || {			\
-		rm -f $(DNT_DB) ;		\
-		exit 1 ;			\
-	}
 
 TODO: $(DNT_DB)
 	$(DNT) $(DNT_FLAGS)			\

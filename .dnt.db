@@ -19,9 +19,11 @@
             <comment>
                 Done
             </comment></entry>
-    <entry priority="veryhigh" start="1251799511">
+    <entry end="1252675347" priority="veryhigh" start="1251799511">
             Move m4 shipped macros as source code
-        </entry>
+            <comment>
+                Done
+            </comment></entry>
     <entry priority="veryhigh" start="1252443497">
             Rearrange the build-related code (macros, makefiles, bootstrap, gnulib-use)
         </entry>

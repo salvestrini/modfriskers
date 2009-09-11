@@ -54,7 +54,6 @@ AC_PROG_AWK
 AX_PATH_MISSING([HELP2MAN],       [help2man])
 AX_PATH_MISSING([WGET],           [wget])
 AX_PATH_MISSING([DNT],            [dnt])
-AX_PATH_MISSING([DEVTODO_TO_DNT], [devtodo-to-dnt])
 
 #
 # Runtime related programs
