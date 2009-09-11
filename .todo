@@ -23,8 +23,11 @@
                 Done
             </comment>
         </note>
-        <note priority="veryhigh" time="1251799511">
+        <note priority="veryhigh" time="1251799511" done="1252675347">
             Move m4 shipped macros as source code
+            <comment>
+                Done
+            </comment>
         </note>
         <note priority="veryhigh" time="1252443497">
             Rearrange the build-related code (macros, makefiles, bootstrap, gnulib-use)
