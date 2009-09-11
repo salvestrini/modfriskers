@@ -20,10 +20,12 @@
 
 include $(top_srcdir)/Makefile.sub
 
-EXTRA_DIST  =
 bin_SCRIPTS =					\
         perl-autofrisk				\
 	python-autofrisk
+
+EXTRA_DIST =
+CLEANFILES =
 
 perl-autofrisk: $(srcdir)/perl-autofrisk.in Makefile
 	( rm -f $@ $@.tmp && \
@@ -35,6 +37,7 @@ perl-autofrisk: $(srcdir)/perl-autofrisk.in Makefile
 	        exit 1 ; \
 	}
 EXTRA_DIST += perl-autofrisk.in
+CLEANFILES += perl-autofrisk
 
 python-autofrisk: $(srcdir)/python-autofrisk.in Makefile
 	( rm -f $@ $@.tmp && \
@@ -46,12 +49,15 @@ python-autofrisk: $(srcdir)/python-autofrisk.in Makefile
 	        exit 1 ; \
 	}
 EXTRA_DIST += python-autofrisk.in
+CLEANFILES += python-autofrisk
 
 m4dir = $(datadir)/aclocal
 
 m4_DATA =					\
         python-autofrisk.m4			\
         perl-autofrisk.m4
+
+EXTRA_DIST += $(m4_DATA)
 
 ##
 ## Maintainer related targets
