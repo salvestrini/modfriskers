@@ -288,7 +288,7 @@ for my $filename (@files) {
             my $m_string = $1;
 
             # Sanitize it!
-            $m_string    =~ s/[ \t]+as[ \t]+[A-Za-z_][A-Za-z0-9_]*//g;
+            $m_string    =~ s/[ \t]+as[ \t]+[A-Za-z_][A-Za-z0-9_\.]*//g;
 
             if (!defined($m_string)) {
                 next;
@@ -298,7 +298,7 @@ for my $filename (@files) {
             for my $m (@m_list) {
                 $modules{$m} = "INCLUDE";
             }
-        } elsif ($line =~ /^[ \t]*from[ \t]+([_a-zA-Z][_a-zA-Z0-9]*)[ \t]+import[ \t]+.*$/) {
+        } elsif ($line =~ /^[ \t]*from[ \t]+([A-Za-z_][A-Za-z0-9_\.]*)[ \t]+import[ \t]+.*$/) {
             $modules{$1} = "INCLUDE";
         }
     }
