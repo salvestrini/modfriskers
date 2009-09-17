@@ -272,7 +272,7 @@ for my $filename (@files) {
         my $line;
 
         $line = $_;
-        if ($line =~ /^use[ \t]*(.*);$/) {
+        if ($line =~ /^[ \t]*use[ \t]+(.*);[ \t]*$/) {
             $modules{$1} = "INCLUDE";
         }
     }
