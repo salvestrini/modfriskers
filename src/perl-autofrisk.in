@@ -1,4 +1,5 @@
 #! @PERL@
+# -*- perl -*-
 
 #
 # perl-autofrisk
@@ -272,7 +273,11 @@ for my $filename (@files) {
         my $line;
 
         $line = $_;
-        if ($line =~ /^[ \t]*use[ \t]+(.*);[ \t]*$/) {
+
+        # XXX FIXME: These regexps smell ...
+        if ($line =~ /^[ \t]*use[ \t]+(.*)[ \t]+.*;[ \t]*$/) {
+            $modules{$1} = "INCLUDE";
+        } elsif ($line =~ /^[ \t]*use[ \t]+(.*);[ \t]*$/) {
             $modules{$1} = "INCLUDE";
         }
     }
