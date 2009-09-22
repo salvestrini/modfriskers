@@ -28,6 +28,7 @@ URL_BU = "http://github.com/salvestrini/build-utils/tree/master/m4"
 
 EXTERNAL =					\
 	$(URL_BU)/ax_split_version.m4		\
+	$(URL_BU)/ax_prog_perl_modules.m4	\
 	$(URL_AA)/ax_compare_version.m4		\
 	$(URL_AA)/ax_missing_prog.m4		\
 	$(URL_AA)/ax_path_missing.m4		\
@@ -36,8 +37,7 @@ EXTERNAL =					\
 	$(URL_AA)/ax_with_prog.m4
 
 INTERNAL =					\
-	gnulib-cache.m4				\
-	ax_prog_perl_modules.m4
+	gnulib-cache.m4
 
 MACROS =                                        \
         $(EXTERNAL)                             \
