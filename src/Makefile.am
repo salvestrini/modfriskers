@@ -20,9 +20,14 @@
 
 include $(top_srcdir)/Makefile.sub
 
-bin_SCRIPTS =					\
-        perl-autofrisk				\
-	python-autofrisk
+bin_SCRIPTS =
+
+if HAVE_PERL
+bin_SCRIPTS += perl-autofrisk
+endif
+if HAVE_PYTHON
+bin_SCRIPTS += python-autofrisk
+endif
 
 EXTRA_DIST =
 CLEANFILES =
