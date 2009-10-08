@@ -3,7 +3,7 @@
 	Default DB name
 	<entry priority="veryhigh" start="1241767034">
 		Release 0.1.0
-		<entry end="1244708702" priority="veryhigh" start="1244708688">
+		<entry end="1255031610" priority="veryhigh" start="1244708688">
 			Fix the multiple import problem in python-modfrisker
 		</entry>
 		<entry end="1251799537" priority="veryhigh" start="1251799472">
