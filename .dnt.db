@@ -48,12 +48,18 @@
 				</entry>
 			</entry>
 		</entry>
-	</entry>
-	<entry priority="high" start="1241767038">
-		Release 0.2.0
+		<entry priority="veryhigh" start="1255089906">
+			Transform python-autofrisk in a Python script
+		</entry>
 		<entry priority="high" start="1245270857">
 			Add some regression tests
 		</entry>
+		<entry end="1255105944" priority="veryhigh" start="1255105915">
+			Add Python support to the build framework
+		</entry>
+	</entry>
+	<entry priority="high" start="1241767038">
+		Release 0.2.0
 		<entry priority="low" start="1245659058">
 			Rearrange the build process in order to use EXEEXT (if needed)
 		</entry>
