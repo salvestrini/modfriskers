@@ -34,6 +34,8 @@ EXTERNAL =					\
 	$(URL_AA)/ax_path_missing.m4		\
 	$(URL_AA)/ax_prog_perl_version.m4	\
 	$(URL_AA)/ax_with_perl.m4		\
+	$(URL_AA)/ax_prog_python_version.m4	\
+	$(URL_AA)/ax_with_python.m4		\
 	$(URL_AA)/ax_with_prog.m4
 
 INTERNAL =					\

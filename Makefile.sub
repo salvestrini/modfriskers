@@ -52,6 +52,7 @@ do_subst_MAINTAINER =
 
 do_subst_SPECIFIC = \
   -e 's,[@]PERL[@],$(PERL),g' \
+  -e 's,[@]PYTHON[@],$(PYTHON),g' \
   -e 's,[@]SED[@],$(SED),g' \
   -e 's,[@]GREP[@],$(GREP),g'
 

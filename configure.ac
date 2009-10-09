@@ -60,8 +60,10 @@ AX_PATH_MISSING([DNT],      [dnt])
 #
 AX_WITH_PERL
 AS_IF([test -z "$PERL"],[
+        have_perl=no
         AC_MSG_ERROR([Missing required Perl interpreter])
 ],[
+        have_perl=yes
         AX_PROG_PERL_VERSION([5.8.0],[],[
                 AC_MSG_ERROR([Missing required Perl interpreter version >= 5.8.0])
         ])
@@ -72,8 +74,18 @@ AS_IF([test -z "$PERL"],[
         ])
 ])
 
-AM_CONDITIONAL([HAVE_PERL],  [ test "$PERL"   != ""])
-AM_CONDITIONAL([HAVE_PYTHON],[ test "$PYTHON" != ""])
+AX_WITH_PYTHON
+AS_IF([test -z "$PYTHON"],[
+        have_python=no
+],[
+        have_python=yes
+        AX_PROG_PYTHON_VERSION([2.5.0],[],[
+                AC_MSG_ERROR([Missing required Perl interpreter version >= 2.5.0])
+        ])
+])
+
+AM_CONDITIONAL([HAVE_PERL],  [ test "$have_perl"   = "yes"])
+AM_CONDITIONAL([HAVE_PYTHON],[ test "$have_python" = "yes"])
 
 AX_SPLIT_VERSION($PACKAGE_VERSION, AX_MAJOR_VERSION, AX_MINOR_VERSION, AX_MICRO_VERSION, AX_EXTRA_VERSION)
 #
