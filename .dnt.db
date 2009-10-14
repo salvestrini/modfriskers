@@ -57,6 +57,9 @@
 		<entry end="1255105944" priority="veryhigh" start="1255105915">
 			Add Python support to the build framework
 		</entry>
+		<entry priority="high" start="1255524661">
+			Rearrange configuration syntax from mixed regexps and wildcards to wildcards only
+		</entry>
 	</entry>
 	<entry priority="high" start="1241767038">
 		Release 0.2.0
