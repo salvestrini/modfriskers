@@ -319,14 +319,14 @@ print $output_handle "#\n";
 print $output_handle "# Files matching regexps:\n";
 print $output_handle "#\n";
 
-for my $filename (@files) {
+for my $filename (sort(@files)) {
     print $output_handle "#  $filename\n";
 }
 print $output_handle "#\n";
 print $output_handle "\n";
 
 print $output_handle "AC_DEFUN([PERL_AUTOFRISK_CHECKS],[\n";
-for my $key (keys(%modules)) {
+for my $key (sort(keys(%modules))) {
     if ($modules{$key} =~ /^INCLUDE$/) {
         my $string =
             "    PERL_AUTOFRISK_MODULES([$key],[],[\n"               .
