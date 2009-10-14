@@ -113,6 +113,8 @@ AC_CONFIG_FILES([
         src/Makefile
         man/Makefile
 
+        tests/Makefile
+
         tools/Makefile
         tools/maint/Makefile
         tools/autotools/Makefile

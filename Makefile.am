@@ -32,6 +32,7 @@ ACLOCAL_AMFLAGS = -I tools/autotools/m4 --install
 SUBDIRS =					\
 	tools					\
 	src					\
+	tests					\
 	man
 
 
