@@ -26,9 +26,9 @@ import sys
 import os.path
 import re
 
-bundle  = "@PACKAGE_NAME@"
-program = "python-autofrisk"
-version = "@PACKAGE_VERSION@"
+package_name    = "@PACKAGE_NAME@"
+program_name    = "python-autofrisk"
+package_version = "@PACKAGE_VERSION@"
 
 #
 # Utilities
@@ -100,26 +100,28 @@ def files_collect(basedir) :
 def hint(string) :
 
     if string != None :
-        print(program + ": " + string)
+        print(program_name + ": " + string)
 
-    print("Try `" + program + " --help' for more information.")
+    print("Try `" + program_name + " --help' for more information.")
 
 def help() :
     print("Usage: $program [OPTION] FILE")
-    print()
+    print
     print("    Autofrisk python modules.")
-    print()
+    print
     print("OPTIONS:")
-    print()
+    print
     print("    --help,    -h    display this help and exit")
     print("    --version, -v    output version information and exit")
-    print()
+    print
     print("Report bugs to <" + "@PACKAGE_BUGREPORT@" + ">")
 
 def version() :
-    print(program + " (" + bundle + ") " + version)
+    print(program_name + " (" +
+          package_name + ") " +
+          package_version)
     print("Written by Francesco Salvestrini")
-    print()
+    print
     print("This is free software; see the source for copying conditions.  There is NO")
     print("warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.")
 
