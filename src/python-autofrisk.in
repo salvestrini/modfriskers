@@ -341,14 +341,14 @@ print $output_handle "#\n";
 print $output_handle "# Files matching regexps:\n";
 print $output_handle "#\n";
 
-for my $filename (@files) {
+for my $filename (sort(@files)) {
     print $output_handle "#  $filename\n";
 }
 print $output_handle "#\n";
 print $output_handle "\n";
 
 print $output_handle "AC_DEFUN([PYTHON_AUTOFRISK_CHECKS],[\n";
-for my $key (keys(%modules)) {
+for my $key (sort(keys(%modules))) {
 
     #
     # XXX FIXME:
