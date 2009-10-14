@@ -1,10 +1,11 @@
-#! @PERL@
-# -*- perl -*-
+#! @PYTHON@
+# -*- python -*-
 
 #
 # python-autofrisk
 #
 # Copyright (C) 2008, 2009 Francesco Salvestrini
+#                          Alessandro Massignan
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -21,258 +22,219 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #
 
-use strict;
-use warnings;
-use File::Find;
-use File::Spec;
-use File::stat;
-use Cwd;
+import sys
+import os.path
+import re
 
-my $bundle  = '@PACKAGE_NAME@';
-my $program = "python-autofrisk";
-my $version = '@PACKAGE_VERSION@';
+bundle  = "@PACKAGE_NAME@"
+program = "python-autofrisk"
+version = "@PACKAGE_VERSION@"
 
 #
 # Utilities
 #
+debug_enabled = False
 
-my $debug_enabled = 0;
+def debug(message) :
+    if debug_enabled :
+        sys.stderr.write(program + ": " + message)
 
-sub debug($)
-{
-    if ($debug_enabled) {
-        my $message = shift;
+def warning(message) :
+    sys.stderr.write(program + ": " + message)
 
-        print STDERR "$program: $message";
-    }
-}
+def error(message) :
+    sys.stderr.write(program + ": " + message)
 
-sub warning($)
-{
-    my $message = shift;
-
-    print STDERR "$program: $message";
-}
-
-sub error($)
-{
-    my $message = shift;
-
-    print STDERR "$program: $message";
-}
-
-sub bug($)
-{
-    my $message = shift;
-
-    print STDERR "Bug hit: $message";
-    exit(1);
-}
+def bug(message) :
+    sys.stderr.write("Bug hit: " + message)
+    sys.exit(1)
 
 #
 # Global variables
 #
-my @module_regexps = (); # Exclusive
-my @file_regexps = ();   # Inclusive
-my @files        = ();
-my $base         = "";
+module_regexps = [ ] # Exclusive
+file_regexps   = [ ] # Inclusive
+files          = [ ]
+base           = ""
+
 
 #
 # Misc
 #
-sub file_filter($)
-{
-    my $abs_name;
-    my $rel_name;
+def files_collect(basedir) :
+    fl = [ ]
 
-    $abs_name = $File::Find::name;
-    $rel_name = File::Spec->abs2rel($abs_name, $base);
+    for root, dirs, files in os.walk(basedir) :
 
-    debug("name = \`" . $rel_name . "'\n");
+        for rel_name in files :
+            abs_name = root + "/" + rel_name
 
-    if (-d $abs_name) {
-        debug("Skipping \`" . $rel_name . "', it is a directory ... \n");
-        return;
-    }
-    if (-l $abs_name) {
-        debug("Skipping, \`" . $rel_name . "' is a link ... \n");
-        return;
-    }
-    if (! -f $abs_name) {
-        debug("Skipping \`" . $rel_name . "', it is not a file ... \n");
-        return;
-    }
+            if os.path.islink(abs_name) :
+                debug("Skipping, `" + rel_name + "' is a link... \n")
+                continue
 
-    # It is a file
+            fh = open(abs_name, "r")
+            if fh == None :
+                warning("File `" + rel_name + "' is not readable\n")
+                continue
+            fh.close()
 
-    if (! -r $abs_name) {
-        warning("File \`" . $rel_name . "' is not readable\n");
-        return;
-    }
+            for i in file_regexps :
+                debug("Checking `" + i + "' against `" + rel_name + "'\n")
 
-    # And it is readable
+                s = re.sub(r'\/', ',', i)
+                s = s + "$"
+                m = re.compile(r'' + s + '')
 
-    for my $regexp (@file_regexps) {
-        debug("Checking \`" . $regexp . "' against \`" . $rel_name . "'\n");
-        my $s;
-        my $t;
+                t = re.sub(r'\/', ',', abs_name)
 
-        $s = $regexp;
-        $s =~ s/\//,/g;
+                if m.search(t) :
+                    debug("Keeping, it matches regexp `" + i + "'\n");
+                    fl.append(abs_name)
+                else :
+                    debug("File `" + rel_name + "' has been dropped, " +
+                          "it doesn't matches regexps\n");
 
-        $t = $rel_name;
-        $t =~ s/\//,/g;
+    return fl
 
-        if ($t =~ /^$s$/) {
-            debug("Keeping, it matches regexp \`" . $regexp . "'\n");
-            push(@files, $abs_name);
-            return;
-        }
-    }
+def hint(string) :
 
-    debug("File \`" . $rel_name . "' has been dropped, " .
-          "it doesn't matches regexps\n");
-    return;
-}
+    if string != None :
+        print(program + ": " + string)
 
-sub hint ($)
-{
-    my $string = shift;
+    print("Try `" + program + " --help' for more information.")
 
-    if (defined($string)) {
-        print "$program: " . $string . "\n";
-    }
-    print "Try `$program --help' for more information.\n";
-}
+def help() :
+    print("Usage: $program [OPTION] FILE")
+    print()
+    print("    Autofrisk python modules.")
+    print()
+    print("OPTIONS:")
+    print()
+    print("    --help,    -h    display this help and exit")
+    print("    --version, -v    output version information and exit")
+    print()
+    print("Report bugs to <" + "@PACKAGE_BUGREPORT@" + ">")
 
-sub help ()
-{
-    print "Usage: $program [OPTION] FILE\n";
-    print "\n";
-    print "    Autofrisk python modules.\n";
-    print "\n";
-    print "OPTIONS:\n";
-    print "\n";
-    print "    --help,    -h    display this help and exit\n";
-    print "    --version, -v    output version information and exit\n";
-    print "\n";
-    print "Report bugs to <" . '@PACKAGE_BUGREPORT@' . ">\n";
-}
+def version() :
+    print(program + " (" + bundle + ") " + version)
+    print("Written by Francesco Salvestrini")
+    print()
+    print("This is free software; see the source for copying conditions.  There is NO")
+    print("warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.")
 
-sub version ()
-{
-    print "$program ($bundle) $version\n";
-    print "Written by Francesco Salvestrini.\n";
-    print "\n";
-    print "This is free software; see the source for copying conditions.  There is NO\n";
-    print "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n";
-}
 
 #
 # Main
 #
-if ($#ARGV < 0) {
+if len(sys.argv) == 1 :
     hint("Missing parameters");
-    exit 1;
-}
-if ($#ARGV > 1) {
+    sys.exit(1)
+
+if len(sys.argv) > 2 :
     hint("too many parameters");
-    exit 1;
-}
+    sys.exit(1)
 
-if (($ARGV[0] eq "--help") ||
-    ($ARGV[0] eq "-h")) {
-    help();
-    exit 0
-}
+if ((sys.argv[1] == "-h") or (sys.argv[1] == "--help")) :
+    help()
+    sys.exit(0)
 
-if (($ARGV[0] eq "--version") ||
-    ($ARGV[0] eq "-v")) {
-    version();
-    exit 0;
-}
+if ((sys.argv[1] == "-V") or (sys.argv[1] == "--version")) :
+    version()
+    sys.exit(0)
+
 
 #
 # Handle rules file
 #
-my $rules_file;
-$rules_file = $ARGV[0];
+rules_file   = sys.argv[1]
+rules_handle = open(rules_file, "r")
 
-my $rules_handle;
-if (!open($rules_handle, "<", $rules_file)) {
-    error("Cannot open \`" . $rules_file . "' for input\n");
-    exit 1;
-}
+if (rules_handle == None) :
+    error("Cannot open \`" + rules_file + "' for input\n")
+    sys.exit(1)
 
-my $line_number = 0;
-while (<$rules_handle>) {
-    my $line;
+line_number = 0
 
-    $line = $_;
-    if ($line =~ /^[ \t]*#.*$/) {
+for line in rules_handle :
+    line_number = line_number + 1
+    r           = None
+
+    r = re.match(r'^[ \t]*#.*\n*$', line)
+    if r :
         # Skip comments
-    } elsif ($line =~ /^[ \t]*$/) {
+        continue
+
+    r = re.match(r'^[ \t\n]*$', line)
+    if r :
         # Skip empty lines
-    } elsif ($line =~ /^[ \t]*files-glob[ \t]+(.*)/) {
-        my $regexp;
+        continue
 
-        $regexp = $1;
-        push(@file_regexps, $regexp);
-        debug("$regexp\n");
-    } elsif ($line =~ /^[ \t]*non-critical-external[ \t](.*)/) {
-        push(@module_regexps, $1);
-    } elsif ($line =~ /^[ \t]*non-critical-internal[ \t](.*)/) {
-        push(@module_regexps, $1);
-    } else {
-        error("Unknown line \`" . $line . "' " .
-              "found in file " . $rules_file . ":" . $line_number . "\n");
-        exit 1;
-    }
+    r = re.match(r'^[ \t]*files-glob[ \t]+(.*)\n*$', line)
+    if r :
+        x = r.group(1).strip()
+        file_regexps.append(x)
+        debug(x + "\n")
+        continue
 
-    $line_number++;
-}
+    r = re.match(r'^[ \t]*non-critical-external[ \t](.*)\n*$', line)
+    if r :
+        x = r.group(1).strip()
+        module_regexps.append(x)
+        continue
 
-close($rules_handle);
+    r = re.match(r'^[ \t]*non-critical-internal[ \t](.*)\n*$', line)
 
-debug("Files-glob regexps (inclusive):\n");
-for my $regexp (@file_regexps) {
-    debug("  regexp = \`" . $regexp . "'\n");
-}
-debug("Modules-glob regexps (exclusive):\n");
-for my $regexp (@module_regexps) {
-    debug("  regexp = \`" . $regexp . "'\n");
-}
+    if r :
+        x = r.group(1).strip()
+        module_regexps.append(x)
+        continue
+
+    error("Unknown line `" + line.rstrip() + "' " + \
+          "found in file " + rules_file    + ": " + \
+          str(line_number) + "\n")
+    sys.exit(1)
+
+rules_handle.close()
+
+
+debug("Files-glob regexps (inclusive):\n")
+for i in  file_regexps :
+    debug("  regexp = `" + i + "'\n")
+
+debug("Modules-glob regexps (exclusive):\n")
+for i in module_regexps :
+    debug("  regexp = `" + i + "'\n")
+
 
 #
 # Compute file list
 #
-$base = cwd();
-debug("base = \`" . $base . "'\n");
-find(\&file_filter, cwd());
+base = os.getcwd()
 
-debug("Files that match:\n");
-for my $filename (@files) {
-    debug("match = $filename\n");
-}
+debug("base = `" + base + "'\n")
+files = files_collect(base)
+
+debug("Files that match:\n")
+
+for i in files :
+    debug("match = " + str(i) + "\n")
+
 
 #
 # Scan each file for modules
 #
-my %modules;
+modules = { }
 
-%modules = ();
-for my $filename (@files) {
-    my $filehandle;
+for filename in files :
+    filehandle = open(filename, "r")
 
-    if (!open($filehandle, "<", $filename)) {
-        error("Unable to open \`$filename' for reading ($!)\n");
-        exit 1;
-    }
+    if filehandle == None :
+        error("Unable to open `" + filename + "' for reading\n")
+        sys.exit(1)
 
-    while (<$filehandle>) {
-        my $line;
-
-        $line = $_;
+    for line in filehandle :
+        line.strip()
 
         #import_stmt    ::=  "import" module ["as" name] ( "," module ["as" name] )*
         #                    | "from" relative_module "import" identifier ["as" name]
@@ -285,96 +247,96 @@ for my $filename (@files) {
         #name            ::=  identifier
         #identifier ::=  (letter|"_") (letter | digit | "_")*
 
-        if ($line =~ /^[ \t]*import[ \t]+(.*)[ \t]*$/) {
-            my $m_string = $1;
+        r = re.search(r'^[ \t]*import[ \t]+(.*)[ \t]*$', line)
+        if r :
+            m_string = r.group(1)
 
             # Sanitize it!
-            $m_string    =~ s/[ \t]+as[ \t]+[A-Za-z_][A-Za-z0-9_\.]*//g;
+            m_string = re.sub(r'[ \t]+as[ \t]+[A-Za-z_][A-Za-z0-9_\.]*',
+                              '',
+                              m_string)
 
-            if (!defined($m_string)) {
-                next;
-            }
-            my @m_list = split(/[ \t]*,[ \t]*/, $m_string);
+            if m_string == None :
+                continue
 
-            for my $m (@m_list) {
-                $modules{$m} = "INCLUDE";
-            }
-        } elsif ($line =~ /^[ \t]*from[ \t]+([A-Za-z_][A-Za-z0-9_\.]*)[ \t]+import[ \t]+.*$/) {
-            $modules{$1} = "INCLUDE";
-        }
-    }
+            m_list = re.split(r'[ \t]*,[ \t]*', m_string)
 
-    close($filehandle);
-}
+            for m in m_list :
+                modules[m] = "INCLUDE"
+
+            continue
+
+        r = re.search(r'^[ \t]*from[ \t]+([A-Za-z_][A-Za-z0-9_\.]*)[ \t]+import[ \t]+.*$', line)
+        if r :
+            modules[r.group(1)] = "INCLUDE"
+
+    filehandle.close()
 
 #
 # Remove non-critical-internal and non-critical-external modules
 #
-for my $key (keys(%modules)) {
-    for my $regexp (@module_regexps) {
-        if ($key =~ /^$regexp$/) {
-            $modules{$key} = "EXCLUDE";
-            debug("Module " . $key . "' excluded\n");
-            next;
-        }
-    }
-}
+for k in modules :
+
+    for r in module_regexps :
+
+        if re.match(r'^' + r + '$', k) :
+            modules[k] = "EXCLUDE"
+            debug("Module " + k + "' excluded\n")
+            continue
+
 
 #
 # Write output file
 #
-my $output_file;
-my $output_handle;
+output_file   = rules_file + ".m4"
+output_handle = open(output_file, "w")
 
-$output_file = $rules_file . ".m4";
-if (!open($output_handle, ">", $output_file)) {
-    error("$program: Cannot open \`" . $output_file . "' file for output\n");
-    exit 1;
-}
+if output_handle == None :
+    error(program + ": Cannot open `" + output_file + "' file for output\n")
+    sys.exit(1)
 
-print $output_handle "#\n";
-print $output_handle "# Autogenerated file, DO NOT EDIT\n";
-print $output_handle "#\n";
-print $output_handle "\n";
+output_handle.write("#\n")
+output_handle.write("# Autogenerated file, DO NOT EDIT\n")
+output_handle.write("#\n")
+output_handle.write("\n")
 
-print $output_handle "#\n";
-print $output_handle "# Files matching regexps:\n";
-print $output_handle "#\n";
+output_handle.write("#\n")
+output_handle.write("# Files matching regexps:\n")
+output_handle.write("#\n")
 
-for my $filename (sort(@files)) {
-    print $output_handle "#  $filename\n";
-}
-print $output_handle "#\n";
-print $output_handle "\n";
+for f in sorted(files) :
+    output_handle.write("#  " + f + "\n")
 
-print $output_handle "AC_DEFUN([PYTHON_AUTOFRISK_CHECKS],[\n";
-for my $key (sort(keys(%modules))) {
+output_handle.write("#\n")
+output_handle.write("\n")
 
+output_handle.write("AC_DEFUN([PYTHON_AUTOFRISK_CHECKS],[\n")
+
+for k in sorted(modules.keys()) :
     #
     # XXX FIXME:
     #     It should be better to add a commentify($string) in the else ...
     #
-    if ($modules{$key} =~ /^INCLUDE$/) {
-        my $string =
-            "    PYTHON_AUTOFRISK_MODULES([$key],[],[\n"               .
-            "        AC_MSG_ERROR([cannot find python module $key])\n" .
-            "    ])\n";
+    if modules[k] == "INCLUDE" :
+        string =                                                            \
+            "    PYTHON_AUTOFRISK_MODULES([" + k + "],[],[\n"               \
+            "        AC_MSG_ERROR([cannot find python module " + k + "])\n" \
+            "    ])\n"
 
-        print $output_handle $string;
-    } elsif ($modules{$key} =~ /^EXCLUDE$/) {
-        my $string =
-            "    #PYTHON_AUTOFRISK_MODULES([$key],[],[])\n";
+        output_handle.write(string)
+    elif modules[k] == "EXCLUDE" :
+        string = \
+            "    #PYTHON_AUTOFRISK_MODULES([" + k + "],[],[])\n"
 
-        print $output_handle $string;
-    } else {
-        bug("Unknown module type");
-    }
-}
-print $output_handle "])\n";
-print $output_handle "\n";
-print $output_handle "AC_DEFUN([PYTHON_AUTOFRISK_SUMMARY],[\n";
-print $output_handle "])\n";
+        output_handle.write(string)
+    else :
+        bug("Unknown module type")
 
-close($output_handle);
+output_handle.write("])\n")
+output_handle.write("\n")
+output_handle.write("AC_DEFUN([PYTHON_AUTOFRISK_SUMMARY],[\n")
+output_handle.write("])\n")
 
-exit 0;
+output_handle.close()
+
+sys.exit(0)
