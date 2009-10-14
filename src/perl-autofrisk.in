@@ -154,7 +154,7 @@ sub help ()
     print "OPTIONS:\n";
     print "\n";
     print "    --help,    -h    display this help and exit\n";
-    print "    --version, -v    output version information and exit\n";
+    print "    --version, -V    output version information and exit\n";
     print "\n";
     print "Report bugs to <" . '@PACKAGE_BUGREPORT@' . ">\n";
 }
@@ -187,7 +187,7 @@ if (($ARGV[0] eq "--help") ||
 }
 
 if (($ARGV[0] eq "--version") ||
-    ($ARGV[0] eq "-v")) {
+    ($ARGV[0] eq "-V")) {
     version();
     exit 0;
 }

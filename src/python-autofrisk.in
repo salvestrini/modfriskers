@@ -112,7 +112,7 @@ def help() :
     print("OPTIONS:")
     print
     print("    --help,    -h    display this help and exit")
-    print("    --version, -v    output version information and exit")
+    print("    --version, -V    output version information and exit")
     print
     print("Report bugs to <" + "@PACKAGE_BUGREPORT@" + ">")
 
