@@ -48,27 +48,33 @@
 				</entry>
 			</entry>
 		</entry>
-		<entry priority="veryhigh" start="1255089906">
+		<entry end="1255598423" priority="veryhigh" start="1255089906">
 			Transform python-autofrisk in a Python script
-		</entry>
-		<entry priority="high" start="1245270857">
-			Add some regression tests
 		</entry>
 		<entry end="1255105944" priority="veryhigh" start="1255105915">
 			Add Python support to the build framework
 		</entry>
-		<entry priority="high" start="1255524661">
-			Rearrange configuration syntax from mixed regexps and wildcards to wildcards only
+		<entry priority="veryhigh" start="1255617272">
+			Add test framework
+		</entry>
+		<entry priority="high" start="1245270857">
+			Add some regression tests
 		</entry>
 	</entry>
 	<entry priority="high" start="1241767038">
 		Release 0.2.0
-		<entry priority="low" start="1245659058">
-			Rearrange the build process in order to use EXEEXT (if needed)
+		<entry priority="high" start="1255524661">
+			Rearrange configuration syntax from mixed regexps and wildcards to wildcards only
+		</entry>
+		<entry priority="veryhigh" start="1255617284">
+			Add some more regression tests
 		</entry>
 	</entry>
 	<entry priority="medium" start="1241767042">
 		Release 0.3.0
+		<entry priority="low" start="1245659058">
+			Rearrange the build process in order to use EXEEXT (if needed)
+		</entry>
 	</entry>
 	<entry priority="low" start="1243950787">
 		Release 0.4.0
