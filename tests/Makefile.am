@@ -116,18 +116,4 @@ clean-local:
 ##
 update-local: Makefile
 
-maintainer-check-parameters: Makefile $(bin_SCRIPTS)
-	for i in $(bin_SCRIPTS) ; do \
-		echo @ECHO_N@ "Checking standard parameters for $$i... " ; \
-		if ( ./$$i -h 2>&1 > /dev/null ) ; then \
-			echo "@ECHO_T@ok" ; \
-		else \
-			echo "@ECHO_T@error" ; \
-			exit 1 ; \
-		fi ; \
-	done
-
-maintainer-check-whitespaces: Makefile $(bin_SCRIPTS)
-	$(WHITESPACE_DETECT) $(bin_SCRIPTS)
-
-maintainer-check-local: Makefile maintainer-check-whitespaces maintainer-check-parameters
+maintainer-check-local: Makefile
