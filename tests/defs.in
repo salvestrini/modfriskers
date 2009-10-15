@@ -68,17 +68,17 @@ SHELL='@SHELL@'
 export SHELL
 
 # User can override various tools used.
-test -z "$PERL"   && PERL='@PERL@'
-test -z "$PYTHON" && PYTHON='@PYTHON@'
-test -z "$MAKE"   && MAKE=make
+#test -z "$TOOL"   && TOOL=tool
 
 FLAGS=""
 
-test -z "$WRAPPER"          && WRAPPER="wrapper"
-test -n "$VERBOSE"          && FLAGS="$FLAGS --verbose"
-test -n "$DEBUG"            && FLAGS="$FLAGS --debug"
-test -z "$PERL_AUTOFRISK"   && PERL_AUTOFRISK="$WRAPPER perl-autofrisk"
-test -z "$PYTHON_AUTOFRISK" && PYTHON_AUTOFRISK="$WRAPPER python-autofrisk"
+test -z "$WRAPPER"                  && WRAPPER="wrapper"
+test -n "$VERBOSE"                  && FLAGS="$FLAGS --verbose"
+test -n "$DEBUG"                    && FLAGS="$FLAGS --debug"
+test -z "$PERL_AUTOFRISK"           && PERL_AUTOFRISK="$WRAPPER perl-autofrisk $FLAGS"
+test -z "$PERL_AUTOFRISK_NOFLAGS"   && PERL_AUTOFRISK_NOFLAGS="$WRAPPER perl-autofrisk"
+test -z "$PYTHON_AUTOFRISK"         && PYTHON_AUTOFRISK="$WRAPPER python-autofrisk $FLAGS"
+test -z "$PYTHON_AUTOFRISK_NOFLAGS" && PYTHON_AUTOFRISK_NOFLAGS="$WRAPPER python-autofrisk"
 
 PATH=`pwd`:$PATH
 echo $PATH
