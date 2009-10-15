@@ -20,6 +20,97 @@
 
 include $(top_srcdir)/Makefile.sub
 
+CLEANFILES =
+EXTRA_DIST =
+##
+## NOTE:
+##     In order to debug the tests during the 'distcheck' target use the
+##     following TESTS_ENVIRONMENT:
+##
+##       TESTS_ENVIRONMENT = testdir=@abs_builddir@ DEBUG=x VERBOSE=x
+##
+TESTS_ENVIRONMENT = testdir=@abs_builddir@
+
+scripts =						\
+        wrapper					\
+        defs
+
+all-local: $(scripts)
+
+# wrapper
+wrapper: $(srcdir)/wrapper.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/wrapper.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+CLEANFILES += wrapper
+EXTRA_DIST += wrapper.in
+
+##
+## NOTE:
+##   defs should not be made executable because it should be only included by
+##   test-cases
+##
+
+# defs
+defs: $(srcdir)/defs.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/defs.in > $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+CLEANFILES += defs
+EXTRA_DIST += defs.in
+
+
+# Tests
+FAIL_TESTS    =
+SUCCESS_TESTS =
+
+FAIL_TESTS    +=				\
+	test-fail
+
+SUCCESS_TESTS +=				\
+	test-success
+
+XFAIL_TESTS  = $(FAIL_TESTS)
+TESTS        = $(FAIL_TESTS) $(SUCCESS_TESTS)
+
+
+test-success: $(srcdir)/test-success.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-success.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-success.in
+CLEANFILES += test-success
+
+test-fail: $(srcdir)/test-fail.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-fail.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-fail.in
+CLEANFILES += test-fail
+
+clean-local:
+	rm -rf testSubDir-*
+
+
 ##
 ## Maintainer related targets
 ##
