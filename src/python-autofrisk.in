@@ -37,13 +37,13 @@ debug_enabled = True
 
 def debug(message) :
     if debug_enabled :
-        sys.stderr.write(program + ": " + message)
+        sys.stderr.write(program_name + ": " + message)
 
 def warning(message) :
-    sys.stderr.write(program + ": " + message)
+    sys.stderr.write(program_name + ": " + message)
 
 def error(message) :
-    sys.stderr.write(program + ": " + message)
+    sys.stderr.write(program_name + ": " + message)
 
 def bug(message) :
     sys.stderr.write("Bug hit: " + message)
