@@ -74,10 +74,14 @@ FAIL_TESTS    =
 SUCCESS_TESTS =
 
 FAIL_TESTS    +=				\
-	test-fail
+	test-fail				\
+	test-perl-autofrisk-02			\
+	test-python-autofrisk-02
 
 SUCCESS_TESTS +=				\
-	test-success
+	test-success				\
+	test-perl-autofrisk-01			\
+	test-python-autofrisk-01
 
 XFAIL_TESTS  = $(FAIL_TESTS)
 TESTS        = $(FAIL_TESTS) $(SUCCESS_TESTS)
@@ -106,6 +110,54 @@ test-fail: $(srcdir)/test-fail.in Makefile
 	}
 EXTRA_DIST += test-fail.in
 CLEANFILES += test-fail
+
+test-perl-autofrisk-01: $(srcdir)/test-perl-autofrisk-01.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-perl-autofrisk-01.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-perl-autofrisk-01.in
+CLEANFILES += test-perl-autofrisk-01
+
+test-perl-autofrisk-02: $(srcdir)/test-perl-autofrisk-02.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-perl-autofrisk-02.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-perl-autofrisk-02.in
+CLEANFILES += test-perl-autofrisk-02
+
+test-python-autofrisk-01: $(srcdir)/test-python-autofrisk-01.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-python-autofrisk-01.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-python-autofrisk-01.in
+CLEANFILES += test-python-autofrisk-01
+
+test-python-autofrisk-02: $(srcdir)/test-python-autofrisk-02.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-python-autofrisk-02.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-python-autofrisk-02.in
+CLEANFILES += test-python-autofrisk-02
 
 clean-local:
 	rm -rf testSubDir-*
