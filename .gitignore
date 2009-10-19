@@ -44,6 +44,10 @@ Makefile
 /tests/testSubDir-*
 /tests/test-success
 /tests/test-fail
+/tests/test-perl-autofrisk-01
+/tests/test-perl-autofrisk-02
+/tests/test-python-autofrisk-01
+/tests/test-python-autofrisk-02
 
 /site/in/.sitetool
 /site/in/site.stamp
