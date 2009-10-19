@@ -125,7 +125,7 @@ sub file_filter($)
 
         if ($t =~ /^$s$/) {
             debug("Keeping, it matches regexp \`" . $regexp . "'\n");
-            push(@files, $abs_name);
+            push(@files, $rel_name);
             return;
         }
     }

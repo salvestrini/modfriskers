@@ -33,7 +33,7 @@ package_version = "@PACKAGE_VERSION@"
 #
 # Utilities
 #
-debug_enabled = False
+debug_enabled = True
 
 def debug(message) :
     if debug_enabled :
@@ -90,7 +90,7 @@ def files_collect(basedir) :
 
                 if m.search(t) :
                     debug("Keeping, it matches regexp `" + i + "'\n");
-                    fl.append(abs_name)
+                    fl.append(rel_name)
                 else :
                     debug("File `" + rel_name + "' has been dropped, " +
                           "it doesn't matches regexps\n");
