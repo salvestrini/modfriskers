@@ -54,10 +54,10 @@
 		<entry end="1255105944" priority="veryhigh" start="1255105915">
 			Add Python support to the build framework
 		</entry>
-		<entry priority="veryhigh" start="1255617272">
+		<entry end="1255960202" priority="veryhigh" start="1255617272">
 			Add test framework
 		</entry>
-		<entry priority="high" start="1245270857">
+		<entry end="1255960208" priority="high" start="1245270857">
 			Add some regression tests
 		</entry>
 	</entry>
