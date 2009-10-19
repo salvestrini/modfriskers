@@ -33,7 +33,7 @@ package_version = "@PACKAGE_VERSION@"
 #
 # Utilities
 #
-debug_enabled = True
+debug_enabled = False
 
 def debug(message) :
     if debug_enabled :
@@ -66,21 +66,22 @@ def files_collect(basedir) :
 
     for root, dirs, files in os.walk(basedir) :
 
-        for rel_name in files :
-            abs_name = root + "/" + rel_name
+        for f in files :
+            abs_name = root + "/" + f
+            rel_name = os.path.relpath(abs_name, ".")
 
             if os.path.islink(abs_name) :
-                debug("Skipping, `" + rel_name + "' is a link... \n")
+                debug("Skipping, `" + f + "' is a link... \n")
                 continue
 
             fh = open(abs_name, "r")
             if fh == None :
-                warning("File `" + rel_name + "' is not readable\n")
+                warning("File `" + f + "' is not readable\n")
                 continue
             fh.close()
 
             for i in file_regexps :
-                debug("Checking `" + i + "' against `" + rel_name + "'\n")
+                debug("Checking `" + i + "' against `" + f + "'\n")
 
                 s = re.sub(r'\/', ',', i)
                 s = s + "$"
@@ -92,7 +93,7 @@ def files_collect(basedir) :
                     debug("Keeping, it matches regexp `" + i + "'\n");
                     fl.append(rel_name)
                 else :
-                    debug("File `" + rel_name + "' has been dropped, " +
+                    debug("File `" + f + "' has been dropped, " +
                           "it doesn't matches regexps\n");
 
     return fl
