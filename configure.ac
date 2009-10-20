@@ -88,24 +88,13 @@ AM_CONDITIONAL([HAVE_PERL],  [ test "$have_perl"   = "yes"])
 AM_CONDITIONAL([HAVE_PYTHON],[ test "$have_python" = "yes"])
 
 AX_SPLIT_VERSION($PACKAGE_VERSION, AX_MAJOR_VERSION, AX_MINOR_VERSION, AX_MICRO_VERSION, AX_EXTRA_VERSION)
-#
-# The API version is the base version.  We must guarantee
-# compatibility for all releases with the same API version.
-# Our current rule is that:
-#
-# * All releases, including the prereleases, in an X.Y series
-#   are compatible.  So 1.5.1c is compatible with 1.5.
-#
-# * Prereleases on the trunk are all incompatible -- 1.5b and 1.5c
-#   aren't the same.
-#
-API_VERSION="${AX_MAJOR_VERSION}.${AX_MINOR_VERSION}"
-AC_SUBST(API_VERSION)
+
+AC_SUBST([PACKAGE_API],[${AX_MAJOR_VERSION}"."${AX_MINOR_VERSION}])
 
 # Versioned directories, defined here for convenience
-AC_SUBST(pkgvdir,     ["\${datadir}/${PACKAGE}-${API_VERSION}"])
-AC_SUBST(pkgvbindir,  ["\${datadir}/${PACKAGE}-${API_VERSION}/bin"])
-AC_SUBST(pkgvlibsdir, ["\${datadir}/${PACKAGE}-${API_VERSION}/libs"])
+AC_SUBST(pkgvdir,     ["\${datadir}/${PACKAGE}-${PACKAGE_API}"])
+AC_SUBST(pkgvbindir,  ["\${datadir}/${PACKAGE}-${PACKAGE_API}/bin"])
+AC_SUBST(pkgvlibsdir, ["\${datadir}/${PACKAGE}-${PACKAGE_API}/libs"])
 
 AC_CONFIG_FILES([
         Makefile
