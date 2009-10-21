@@ -30,12 +30,12 @@
 				Done
 			</comment>
 		</entry>
-		<entry priority="veryhigh" start="1252443497">
+		<entry end="1256058512" priority="veryhigh" start="1252443497">
 			Rearrange the build-related code (macros, makefiles, bootstrap, gnulib-use)
 		</entry>
 		<entry priority="high" start="1253139021">
 			Update build
-			<entry priority="high" start="1253139021">
+			<entry end="1256058524" priority="high" start="1253139021">
 				Fix package version in order to handle git versioning
 			</entry>
 			<entry end="1253617471" priority="high" start="1253139021">
