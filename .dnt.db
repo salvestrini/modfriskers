@@ -33,7 +33,7 @@
 		<entry end="1256058512" priority="veryhigh" start="1252443497">
 			Rearrange the build-related code (macros, makefiles, bootstrap, gnulib-use)
 		</entry>
-		<entry priority="high" start="1253139021">
+		<entry end="1257343152" priority="high" start="1253139021">
 			Update build
 			<entry end="1256058524" priority="high" start="1253139021">
 				Fix package version in order to handle git versioning
@@ -41,9 +41,9 @@
 			<entry end="1253617471" priority="high" start="1253139021">
 				Move internal macros to build-utils package
 			</entry>
-			<entry priority="high" start="1253139021">
+			<entry end="1257343150" priority="high" start="1253139021">
 				Create AX_PACKAGE_API macro
-				<entry priority="high" start="1253139021">
+				<entry end="1257343149" priority="high" start="1253139021">
 					Update configure.ac replacing API-handling with AX_PACKAGE_API
 				</entry>
 			</entry>

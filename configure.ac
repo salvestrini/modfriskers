@@ -88,12 +88,7 @@ AM_CONDITIONAL([HAVE_PERL],  [ test "$have_perl"   = "yes"])
 AM_CONDITIONAL([HAVE_PYTHON],[ test "$have_python" = "yes"])
 
 AX_SPLIT_VERSION($PACKAGE_VERSION, AX_MAJOR_VERSION, AX_MINOR_VERSION, AX_MICRO_VERSION, AX_EXTRA_VERSION)
-AC_SUBST([PACKAGE_API],[${AX_MAJOR_VERSION}"."${AX_MINOR_VERSION}])
-
-# Versioned directories, defined here for convenience
-AC_SUBST(pkgvdir,     ["\${datadir}/${PACKAGE}-${PACKAGE_API}"])
-AC_SUBST(pkgvbindir,  ["\${datadir}/${PACKAGE}-${PACKAGE_API}/bin"])
-AC_SUBST(pkgvlibsdir, ["\${datadir}/${PACKAGE}-${PACKAGE_API}/libs"])
+AX_PACKAGE_API([${AX_MAJOR_VERSION}"."${AX_MINOR_VERSION}])
 
 AC_CONFIG_FILES([
         Makefile
