@@ -164,8 +164,10 @@ sub version ()
     print "$program ($bundle) $version\n";
     print "Written by Francesco Salvestrini.\n";
     print "\n";
-    print "This is free software; see the source for copying conditions.  There is NO\n";
-    print "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n";
+    print "This is free software; see the source for copying conditions.  " .
+        "There is NO\n";
+    print "warranty; not even for MERCHANTABILITY or FITNESS FOR A " .
+        "PARTICULAR PURPOSE.\n";
 }
 
 #

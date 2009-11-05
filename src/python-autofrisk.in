@@ -123,8 +123,10 @@ def version() :
           package_version)
     print("Written by Francesco Salvestrini")
     print
-    print("This is free software; see the source for copying conditions.  There is NO")
-    print("warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.")
+    print("This is free software; see the source for copying conditions.  " \
+              "There is NO")
+    print("warranty; not even for MERCHANTABILITY or FITNESS FOR A " \
+              "PARTICULAR PURPOSE.")
 
 
 #
@@ -239,12 +241,13 @@ for filename in files :
     for line in filehandle :
         line.strip()
 
-        #import_stmt    ::=  "import" module ["as" name] ( "," module ["as" name] )*
-        #                    | "from" relative_module "import" identifier ["as" name]
-        #                    ( "," identifier ["as" name] )*
-        #                    | "from" relative_module "import" "(" identifier ["as" name]
-        #                    ( "," identifier ["as" name] )* [","] ")"
-        #                    | "from" module "import" "*"
+        #import_stmt    ::=
+        #  "import" module ["as" name] ( "," module ["as" name] )*
+        #  | "from" relative_module "import" identifier ["as" name]
+        #    ( "," identifier ["as" name] )*
+        #  | "from" relative_module "import" "(" identifier ["as" name]
+        #    ( "," identifier ["as" name] )* [","] ")"
+        #  | "from" module "import" "*"
         #module          ::=  (identifier ".")* identifier
         #relative_module ::=  "."* module | "."+
         #name            ::=  identifier
