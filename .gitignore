@@ -35,6 +35,7 @@ Makefile
 /tools/autotools/texinfo.tex
 
 /tools/maint/fetch
+/tools/maint/wordwrap-detect
 /tools/maint/whitespace-detect
 /tools/maint/gitlog-to-committers
 /tools/maint/gittag-to-date

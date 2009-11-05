@@ -83,4 +83,10 @@ maintainer-check-parameters: Makefile $(bin_SCRIPTS)
 maintainer-check-whitespaces: Makefile $(bin_SCRIPTS)
 	$(WHITESPACE_DETECT) $(bin_SCRIPTS)
 
-maintainer-check-local: Makefile maintainer-check-whitespaces maintainer-check-parameters
+maintainer-check-wordwraps: Makefile $(bin_SCRIPTS)
+	$(WORDWRAP_DETECT) --tab-size 8 --columns 80 $(bin_SCRIPTS)
+
+maintainer-check-local: Makefile		\
+	maintainer-check-whitespaces		\
+	maintainer-check-wordwraps		\
+	maintainer-check-parameters

@@ -27,6 +27,7 @@ EXTRA_DIST =					\
 
 scripts =					\
 	fetch					\
+	wordwrap-detect				\
 	whitespace-detect			\
 	gitlog-to-committers			\
 	gittag-to-date				\
@@ -37,10 +38,11 @@ scripts =					\
 ##
 URL_BU = "http://github.com/salvestrini/build-utils/tree/master/maint"
 
-EXTERNAL =                                      \
-        $(URL_BU)/fetch.in                      \
-        $(URL_BU)/whitespace-detect.in          \
-        $(URL_BU)/gitlog-to-committers.in       \
+EXTERNAL =					\
+        $(URL_BU)/fetch.in			\
+        $(URL_BU)/wordwrap-detect.in		\
+        $(URL_BU)/whitespace-detect.in		\
+        $(URL_BU)/gitlog-to-committers.in	\
         $(URL_BU)/gittag-to-date.in
 
 update-local: Makefile
