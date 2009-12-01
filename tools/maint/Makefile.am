@@ -31,6 +31,7 @@ scripts =					\
 	whitespace-detect			\
 	gitlog-to-committers			\
 	gittag-to-date				\
+	releases-to-news			\
 	$(EXTRA_DIST)
 
 ##
@@ -43,7 +44,8 @@ EXTERNAL =					\
         $(URL_BU)/wordwrap-detect.in		\
         $(URL_BU)/whitespace-detect.in		\
         $(URL_BU)/gitlog-to-committers.in	\
-        $(URL_BU)/gittag-to-date.in
+        $(URL_BU)/gittag-to-date.in		\
+        $(URL_BU)/releases-to-news.in
 
 update-local: Makefile
 	rm -r -f fetch-dir && \
