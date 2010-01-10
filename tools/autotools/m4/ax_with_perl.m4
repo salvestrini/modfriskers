@@ -17,7 +17,7 @@
 #
 #   A typical use could be the following one:
 #
-#         AX_WITH_PERL
+#     AX_WITH_PERL
 #
 # LICENSE
 #
@@ -25,7 +25,8 @@
 #
 #   Copying and distribution of this file, with or without modification, are
 #   permitted in any medium without royalty provided the copyright notice
-#   and this notice are preserved.
+#   and this notice are preserved. This file is offered as-is, without any
+#   warranty.
 
 AC_DEFUN([AX_WITH_PERL],[
     AX_WITH_PROG(PERL,perl,$1,$2)
